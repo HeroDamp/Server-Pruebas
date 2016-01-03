@@ -430,7 +430,9 @@ function cacheGroupData() {
 			cachedGroups[sym] = 'processing';
 			let inheritGroup = groups[groupData['inherit']];
 			if (cacheGroup(groupData['inherit'], inheritGroup)) {
-				Object.merge(groupData, inheritGroup, false, false);
+				for (var t in inheritGroup) {
+ 					if (!groupData[t] && t !== 'globalonly' && t !== 'roomonly') groupData[t] = inheritGroup[t];
+ 				}
 			}
 			delete groupData['inherit'];
 		}
@@ -1139,7 +1141,7 @@ User = (function () {
 			this.avatar = Config.customavatars[this.userid];
 		}
 
-		this.isStaff = (this.group in {'%':1, '@':1, '&':1, '~':1});
+		this.isStaff = (this.group in {'+':1,'\u2295':1,'%':1, '@':1, '&':1, '~':1});
 		if (!this.isStaff) {
 			let staffRoom = Rooms('staff');
 			this.isStaff = (staffRoom && staffRoom.auth && staffRoom.auth[this.userid]);
@@ -1162,7 +1164,7 @@ User = (function () {
 	 */
 	User.prototype.setGroup = function (group, forceConfirmed) {
 		this.group = group.charAt(0);
-		this.isStaff = (this.group in {'%':1, '@':1, '&':1, '~':1});
+		this.isStaff = (this.group in {'+':1,'\u2295':1,'%':1, '@':1, '&':1, '~':1});
 		if (!this.isStaff) {
 			let staffRoom = Rooms('staff');
 			this.isStaff = (staffRoom && staffRoom.auth && staffRoom.auth[this.userid]);
