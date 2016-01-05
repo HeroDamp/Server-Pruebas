@@ -1,5 +1,5 @@
-const clanDataFile = DATA_DIR + 'clans.json';
-const warLogDataFile = DATA_DIR + 'warlog.json';
+const clanDataFile = 'config/clans.json';
+const warLogDataFile = 'config/warlog.json';
 
 var fs = require('fs');
 var elo = require('./elo.js')();
